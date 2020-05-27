@@ -1,0 +1,55 @@
+<mat-toolbar color="primary">
+  <mat-toolbar-row>
+    <button mat-flat-button color="accent" type="button" (click)="visibility = true">Pie Chart</button>
+    <button mat-flat-button color="accent" type="button" (click)="visibility = false">Line Chart</button>
+    <span class="spacer"></span>
+    <mat-form-field>
+      <mat-label>
+        Summarize by</mat-label>
+      <mat-select [ngModel]="mode" (ngModelChange)="onModeChange($event)">
+        <mat-option *ngFor="let item of modes; let i=index" [value]="item">
+          {{item}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+  </mat-toolbar-row>
+  <mat-toolbar-row>
+    <div>
+
+      <p>Category filters:&nbsp;
+        <span *ngIf="categoryFilter.length==0">No category filters</span>
+        <ng-container *ngIf="categoryFilter.length> 0">
+          <span *ngFor="let filter of categoryFilter">{{filter}}</span>
+        </ng-container>
+      </p>
+      <p>Time filters:&nbsp;<span *ngIf="timeRange.length == 0">No time filters</span>
+        <span *ngIf="timeRange.length>0">from
+          week N: {{timeRange[0]}} up to week N: {{timeRange[1]}}</span></p>
+    </div>
+    <span class="spacer"></span>
+    <button mat-stroked-button color="accent" (click)="onRemoveFilters()">Remove filters</button>
+  </mat-toolbar-row>
+</mat-toolbar>
+<p>{{mode}}</p>
+
+<app-pie-chart [style.display]="visibility?'block':'none'" [mode]="mode">
+  <h3>chart</h3>
+</app-pie-chart>
+<app-line-chart [style.display]="!visibility?'block':'none'" [mode]="mode"></app-line-chart>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- <router-outlet></router-outlet> -->

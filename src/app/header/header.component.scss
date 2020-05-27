@@ -1,0 +1,41 @@
+* {
+  font-size: 0.5rem;
+  color: white;
+}
+a {
+  text-decoration: none;
+}
+a.active {
+  color: red;
+}
+span.spacer {
+  flex: 1 1 auto;
+}
+
+mat-option {
+  color: grey;
+}
+
+mat-toolbar-row:first-child {
+  box-shadow: (2px 2px 8px rgba(27, 27, 27, 0.5));
+  span {
+    flex-basis: 10%;
+  }
+}
+mat-toolbar-row:last-child {
+  div {
+    padding: 0;
+    p {
+      margin: 0;
+      span {
+        font-weight: 100;
+      }
+      span:after {
+        content: ", ";
+      }
+      span:last-child::after {
+        content: "";
+      }
+    }
+  }
+}
