@@ -28,7 +28,7 @@ export class ChartService {
   categoryFilterSelectSubj: Subject<string[]> = new Subject<string[]>(); // header component is subscribed
   timeRangeSelectSubj: Subject<number[]> = new Subject<number[]>();// header component is subscribed
 
-  removeFilterSbj: Subject<boolean> = new Subject<boolean>();
+  removeFilterSbj: Subject<boolean> = new Subject<boolean>();// header component is subscribed
 
   constructor() {
   }
@@ -80,7 +80,6 @@ export class ChartService {
       this.pieGroup = this.pieDimension.group().reduceSum(d => d[this.mode]);
       this.lineGroup = this.lineDimension.group().reduceSum(d => d[this.mode]);
       this.onDataChangeSubj.next(this.mode);
-
     }
   }
 
