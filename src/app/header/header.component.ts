@@ -18,10 +18,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   timeRangeSelectSubscription: Subscription;
   mode: string;
 
-
-
   constructor(private srv: ChartService) { }
-
 
   ngOnInit(): void {
     this.categoryFilter = this.srv.categoryFilterList;
@@ -47,8 +44,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   onRemoveFilters() {
     this.srv.removeFilters();
-    this.categoryFilter = [];
-    this.timeRange = [];
   }
 
   ngOnDestroy(): void {

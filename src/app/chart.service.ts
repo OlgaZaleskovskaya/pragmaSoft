@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import * as crossfilter from 'crossfilter2/crossfilter';
 import * as d3 from 'd3';
 import * as dc from 'dc';
-import { Subject, BehaviorSubject } from 'rxjs';
+import { Subject } from 'rxjs';
 
 
 @Injectable({
@@ -20,13 +20,10 @@ export class ChartService {
   lineGroup: any;
   timeRange: number[] = [];
   categoryFilterList: string[] = [];
-  pieChart: any;
-  lineChart: any;
 
   modeChangeSbj: Subject<string> = new Subject<string>();
 
   onDataChangeSubj: Subject<string> = new Subject<string>();
-  //  pieDataChangeSubj: Subject<string> = new Subject<string>();
 
   categoryFilterSelectSubj: Subject<string[]> = new Subject<string[]>(); // header component is subscribed
   timeRangeSelectSubj: Subject<number[]> = new Subject<number[]>();// header component is subscribed
@@ -54,18 +51,16 @@ export class ChartService {
   }
 
   removeFilters() {
-   // this.timeRange = [];
-   // this.categoryFilterList = [];
-   // this.mainData;
-
-    this.removeFilterSbj.next(true);
-
-    //this.categoryFilterSelectSubj.next([]);// header component is subscribed
-    //  this.timeRangeSelectSubj.next([]);// header component is subscribed
+    this.mainData = undefined;
+    this.getData();
+    this.categoryFilterList = [];
+    this.timeRange = [];
+    this.categoryFilterSelectSubj.next(this.categoryFilterList);// header component is subscribed
+    this.timeRangeSelectSubj.next(this.timeRange);// header component is subscribed
   }
 
   getData() {
-    if (this.mainData == undefined) {
+    if (!this.mainData) {
       d3.csv("/../assets/data.csv").then(data => {
         this.mainData = data;
         this.crossFilter = crossfilter(data);
@@ -79,11 +74,13 @@ export class ChartService {
           return data['week_ref'];
         });
         this.lineGroup = this.lineDimension.group().reduceSum(d => d[this.mode]);
+        this.onDataChangeSubj.next(this.mode);
       });
     } else {
       this.pieGroup = this.pieDimension.group().reduceSum(d => d[this.mode]);
-      this.onDataChangeSubj.next(this.mode);
       this.lineGroup = this.lineDimension.group().reduceSum(d => d[this.mode]);
+      this.onDataChangeSubj.next(this.mode);
+
     }
   }
 

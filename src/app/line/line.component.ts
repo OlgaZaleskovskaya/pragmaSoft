@@ -1,9 +1,7 @@
-import { Component, OnInit, Input, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ChartService } from '../chart.service';
 import * as d3 from 'd3';
-import * as dc from 'dc';
 import { Subscription } from 'rxjs';
-
 
 @Component({
   selector: 'app-line-chart',
@@ -15,27 +13,19 @@ export class LineComponent implements OnInit, OnDestroy {
   mode: string;
 
   fetchDataSubscription: Subscription;
-  removeAllFilersSubscription: Subscription;
 
   constructor(private srv: ChartService) {
   }
 
   ngOnInit(): void {
     this.mode = this.srv.mode;
-    this.lineChart = dc.lineChart('#line', "line");
+    this.lineChart = this.srv.ds.lineChart('#line', "line");
     this.createLineChart();
-
 
     this.fetchDataSubscription = this.srv.onDataChangeSubj.subscribe(res => {
       this.mode = res;
       this.createLineChart();
-    });
-
-    this.removeAllFilersSubscription = this.srv.removeFilterSbj.subscribe(res => {
-      this.createLineChart();
-      this.srv.ds.filterAll();
-      this.srv.ds.redrawAll();
-    });
+    })
   }
 
   public createLineChart() {
@@ -52,7 +42,6 @@ export class LineComponent implements OnInit, OnDestroy {
       .yAxisLabel(this.mode)
       .dimension(this.srv.lineDimension)
       .group(this.srv.lineGroup)
-      //.renderLabel(true)
       .colors('red')
       .elasticY(true)
       .on('renderlet', function (chart) {
@@ -68,12 +57,10 @@ export class LineComponent implements OnInit, OnDestroy {
 
     this.srv.lineChart = this.lineChart;
     this.srv.ds.renderAll("line");
-
   }
 
   ngOnDestroy(): void {
     this.fetchDataSubscription.unsubscribe();
-    this.removeAllFilersSubscription.unsubscribe()
   }
 
 }
