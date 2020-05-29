@@ -14,23 +14,22 @@ export class HeaderComponent implements OnInit, OnDestroy {
   modes: string[];
   categoryFilter: string[];
   timeRange: number[];
-  categoryFilterSubscription: Subscription;
-  timeRangeSubscription: Subscription;
+  categoryFiltrSelectSubscription: Subscription;
+  timeRangeSelectSubscription: Subscription;
   mode: string;
 
 
-  visibility: boolean;
+
   constructor(private srv: ChartService) { }
 
 
   ngOnInit(): void {
-    this.visibility = true;
-    this.categoryFilter = this.srv.categoryFilter;
+    this.categoryFilter = this.srv.categoryFilterList;
     this.timeRange = this.srv.timeRange;
-    this.timeRangeSubscription = this.srv.rangeSubj.subscribe(res => {
+    this.timeRangeSelectSubscription = this.srv.timeRangeSelectSubj.subscribe(res => {
       this.timeRange = res;
     });
-    this.categoryFilterSubscription = this.srv.categorySubj.subscribe(res => {
+    this.categoryFiltrSelectSubscription = this.srv.categoryFilterSelectSubj.subscribe(res => {
       this.categoryFilter = res;
     });
 
@@ -48,11 +47,13 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   onRemoveFilters() {
     this.srv.removeFilters();
+    this.categoryFilter = [];
+    this.timeRange = [];
   }
 
   ngOnDestroy(): void {
-    this.categoryFilterSubscription.unsubscribe();
-    this.timeRangeSubscription.unsubscribe();
+    this.categoryFiltrSelectSubscription.unsubscribe();
+    this.timeRangeSelectSubscription.unsubscribe();
   }
 
 }

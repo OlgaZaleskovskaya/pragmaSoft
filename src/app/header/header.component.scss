@@ -8,6 +8,11 @@ a {
 a.active {
   color: red;
 }
+
+span{
+  flex-basis: 10rem;
+}
+
 span.spacer {
   flex: 1 1 auto;
 }

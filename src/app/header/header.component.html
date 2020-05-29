@@ -1,7 +1,11 @@
 <mat-toolbar color="primary">
   <mat-toolbar-row>
-    <button mat-flat-button color="accent" type="button" (click)="visibility = true">Pie Chart</button>
-    <button mat-flat-button color="accent" type="button" (click)="visibility = false">Line Chart</button>
+    <span>
+      <a routerLink="/pie" routerLinkActive="active">Pie Chart</a>
+    </span>
+    <span>
+      <a routerLink="/line" routerLinkActive="active">Line Chart</a>
+    </span>
     <span class="spacer"></span>
     <mat-form-field>
       <mat-label>
@@ -12,11 +16,10 @@
         </mat-option>
       </mat-select>
     </mat-form-field>
-
   </mat-toolbar-row>
+
   <mat-toolbar-row>
     <div>
-
       <p>Category filters:&nbsp;
         <span *ngIf="categoryFilter.length==0">No category filters</span>
         <ng-container *ngIf="categoryFilter.length> 0">
@@ -31,12 +34,8 @@
     <button mat-stroked-button color="accent" (click)="onRemoveFilters()">Reset all</button>
   </mat-toolbar-row>
 </mat-toolbar>
-<p>{{mode}}</p>
 
-<app-pie-chart [style.display]="visibility?'block':'none'" [mode]="mode">
-  <h3>chart</h3>
-</app-pie-chart>
-<app-line-chart [style.display]="!visibility?'block':'none'" [mode]="mode"></app-line-chart>
+<router-outlet></router-outlet>
 
 
 
