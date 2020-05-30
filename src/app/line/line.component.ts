@@ -55,7 +55,7 @@ export class LineComponent implements OnInit, OnDestroy {
       }
     });
 
-    this.srv.lineChart = this.lineChart;
+
     this.srv.ds.renderAll("line");
   }
 
